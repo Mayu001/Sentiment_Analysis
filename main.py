@@ -7,7 +7,11 @@ posTrigram=[]
 
 for line in open("positive_sentences.txt", encoding="utf-8").read().split("\n")[:-1]:
     #posUnigrams=word_tokenize(line)
-    pU=line.split(" ")
+    abc = line.split(" ")
+    pU = []
+    for a in abc:
+        if a.isalnum():
+            pU.append(a)
     pB=[]
     pT=[]
     i=0
@@ -39,7 +43,12 @@ negBigram=[]
 negTrigram=[]
 for line in open("negative_sentences.txt", encoding="utf-8").read().split("\n")[:-1]:
     #negUnigrams=word_tokenize(line)
-    nU=line.split(" ")
+    abc=line.split(" ")
+    nU=[]
+    for a in abc:
+        if a.isalnum():
+            nU.append(a)
+
     nB=[]
     nT=[]
     i=0
@@ -54,14 +63,13 @@ for line in open("negative_sentences.txt", encoding="utf-8").read().split("\n")[
     negBigram=negBigram+nB
     negTrigram=negTrigram+nT
 #frequent items
-most_common_negUnigrams= [word for word in Counter(negUnigram).most_common(1000)]  #unigram
+most_common_negUnigrams= [word for word,word_count in Counter(negUnigram).most_common(3000)]  #unigram
 with open("most_common_negUnigrams.pkl", "wb") as a1:
     pickle.dump(most_common_negUnigrams, a1)
-most_common_negBigrams= [word for word, word_count in Counter(negBigram).most_common(1000)] #bigram
+most_common_negBigrams= [word for word, word_count in Counter(negBigram).most_common(3000)] #bigram
 with open("most_common_negBigrams.pkl", "wb") as a1:
     pickle.dump(most_common_negBigrams, a1)
-most_common_negTrigrams= [word for word, word_count in Counter(negTrigram).most_common(1000)] #trigram
+most_common_negTrigrams= [word for word, word_count in Counter(negTrigram).most_common(3000)] #trigram
 with open("most_common_negTrigrams.pkl", "wb") as a1:
     pickle.dump(most_common_negTrigrams, a1)
-print(most_common_negUnigrams,most_common_negBigrams,most_common_negTrigrams)
-
+#print(most_common_negUnigrams,most_common_negBigrams,most_common_negTrigrams)
