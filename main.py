@@ -1,17 +1,21 @@
 from collections import Counter
-#from nltk.tokenize import word_tokenize
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
 #unigram bigrams trigrams
 posUnigram=[]
 posBigram=[]
 posTrigram=[]
-
+stop_words = set(stopwords.words('english'))
+stop_words.remove('not')
 for line in open("positive_sentences.txt", encoding="utf-8").read().split("\n")[:-1]:
-    #posUnigrams=word_tokenize(line)
-    abc = line.split(" ")
+    abc=word_tokenize(line)
+    #abc = line.split(" ")
     pU = []
     for a in abc:
         if a.isalnum():
             pU.append(a)
+
+    pU = [w for w in pU if not w in stop_words]
     pB=[]
     pT=[]
     i=0
@@ -42,13 +46,13 @@ negUnigram=[]
 negBigram=[]
 negTrigram=[]
 for line in open("negative_sentences.txt", encoding="utf-8").read().split("\n")[:-1]:
-    #negUnigrams=word_tokenize(line)
-    abc=line.split(" ")
+    abc=word_tokenize(line)
+    #abc=line.split(" ")
     nU=[]
     for a in abc:
         if a.isalnum():
             nU.append(a)
-
+    nU = [w for w in nU if not w in stop_words]
     nB=[]
     nT=[]
     i=0
@@ -72,4 +76,4 @@ with open("most_common_negBigrams.pkl", "wb") as a1:
 most_common_negTrigrams= [word for word, word_count in Counter(negTrigram).most_common(3000)] #trigram
 with open("most_common_negTrigrams.pkl", "wb") as a1:
     pickle.dump(most_common_negTrigrams, a1)
-#print(most_common_negUnigrams,most_common_negBigrams,most_common_negTrigrams)
+print(most_common_negUnigrams,most_common_negBigrams,most_common_negTrigrams)

@@ -1,16 +1,57 @@
 import pickle
-univtrainedlist=[]
+from nltk.tokenize import word_tokenize
+univtrained={}
+posunigrams = []
+negunigrams = []
+with (open("common_posUnigrams.pkl", "rb")) as openfile:
+    while True:
+        try:
+            posunigrams=(pickle.load(openfile))
+        except EOFError:
+            break
+with (open("most_common_negUnigrams.pkl", "rb")) as openfile:
+    while True:
+        try:
+            negunigrams=(pickle.load(openfile))
+        except EOFError:
+            break
+posbigrams = []
+with (open("most_common_posBigrams.pkl", "rb")) as openfile:
+    while True:
+        try:
+            posbigrams=(pickle.load(openfile))
+        except EOFError:
+            break
+negbigrams = []
+with (open("most_common_negBigrams.pkl", "rb")) as openfile:
+    while True:
+        try:
+            negbigrams=(pickle.load(openfile))
+        except EOFError:
+            break
+postrigrams = []
+with (open("most_common_posTrigrams.pkl", "rb")) as openfile:
+    while True:
+        try:
+            postrigrams=(pickle.load(openfile))
+        except EOFError:
+            break
+negtrigrams = []
+with (open("most_common_negTrigrams.pkl", "rb")) as openfile:
+    while True:
+        try:
+
+            negtrigrams=(pickle.load(openfile))
+        except EOFError:
+            break
+##comparing    *****************************
 for line in open("positive_sentences.txt", encoding="utf-8").read().split("\n")[:-1]:
-    #posUnigrams=word_tokenize(line)
-    #print(line)
     positive = 0
-    negative = 0
-    abc = line.split(" ")
+    abc = word_tokenize(line)
     unigram = []
     for a in abc:
         if a.isalnum():
             unigram.append(a)
-    #unigram=line.split(" ")
     bigram=[]
     trigram=[]
     trainedlist=[]
@@ -23,92 +64,42 @@ for line in open("positive_sentences.txt", encoding="utf-8").read().split("\n")[
         trigram.append(unigram[i] + unigram[i + 1] + unigram[i + 2])
         i+=1
     #check for unigrams
-    posunigrams = []
-    negunigrams = []
-    with (open("common_posUnigrams.pkl", "rb")) as openfile:
-        while True:
-            try:
-                posunigrams.append(pickle.load(openfile))
-            except EOFError:
-                break
-    with (open("most_common_negUnigrams.pkl", "rb")) as openfile:
-        while True:
-            try:
-                negunigrams.append(pickle.load(openfile))
-            except EOFError:
-                break
-    positive = 0
-    df=open("positivelexicon.txt",'r')
 
-    # posunigrams=df.readlines()
-    # posunigrams=[w[0:-1] for w in posunigrams]
-    #
-    # df=open("negativelexicon.txt",'r')
-    # negunigrams = df.readlines()
-    # negunigrams = [w[0:-1] for w in negunigrams]
+    positive = 0
+    negative = 0
     abcd=[]
-    word = ""
-    #print(posunigrams)
-    for word in unigram:
-        #print(posunigrams)
-        if word in posunigrams:
-            positive+=1
-        if word in negunigrams:
-            positive-=1
-    abcd.append(positive)
-        #trainedlist.insert(0,positive)
-        #trainedlist.insert(0, negative)
-    #check for bigrams
-    posbigrams = []
-    with (open("most_common_posBigrams.pkl", "rb")) as openfile:
-        while True:
-            try:
-                posbigrams.append(pickle.load(openfile))
-            except EOFError:
-                break
-    negbigrams = []
-    with (open("most_common_negBigrams.pkl", "rb")) as openfile:
-        while True:
-            try:
-                negbigrams.append(pickle.load(openfile))
-            except EOFError:
-                break
+    word =""
+    if any(word in unigram for word in posunigrams):
+      positive+=1
+    if any(word in unigram for word in negunigrams):
+      negative-=1
+    if positive >negative:
+        abcd.append(positive)
+    else:
+        abcd.append(negative)
     positive=0
+    negative=0
     word=""
-    for word in bigram:
-        #print(word)
-        if word in posbigrams:
-            positive += 1
-        elif word in negbigrams:
-            positive -= 1
-    abcd.append(positive)
-        #trainedlist.insert(0,positive)
-        #trainedlist.insert(0, negative)
-    # check for trigrams
-    postrigrams = []
+    if any(word in bigram for word in posbigrams):
+      positive+=1
+    if any(word in bigram for word in negbigrams):
+      negative-=1
+    if positive >negative:
+        abcd.append(positive)
+    else:
+        abcd.append(negative)
     positive = 0
+    negative = 0
     word = ""
-    with (open("most_common_posBigrams.pkl", "rb")) as openfile:
-        while True:
-            try:
-                postrigrams.append(pickle.load(openfile))
-            except EOFError:
-                break
-    negtrigrams = []
-    with (open("most_common_negBigrams.pkl", "rb")) as openfile:
-        while True:
-            try:
+    if any(word in trigram for word in postrigrams):
+      positive+=1
+    if any(word in trigram for word in negtrigrams):
+      negative-=1
+    if positive >negative:
+        abcd.append(positive)
+    else:
+        abcd.append(negative)
+    print(abcd)
+    univtrained
+print(univtrained)
 
-                negtrigrams.append(pickle.load(openfile))
-            except EOFError:
-                break
-    for word in trigram:
-        if word in postrigrams:
-            positive += 1
-        if word in negtrigrams:
-            positive -= 1
-    abcd.append(positive)
-        #trainedlist.insert(0,positive)
-        #trainedlist.insert(0, negative)
-    univtrainedlist.append(abcd)
-print(univtrainedlist)
