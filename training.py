@@ -1,10 +1,13 @@
 import pickle
 from nltk.tokenize import word_tokenize
+from sklearn import svm
 univtrained=[]
+univnature=[]
 posgram=[]
 neggram=[]
 posunigrams = []
 negunigrams = []
+#clf = svm.SVC()
 for word in open("positivelexicon.txt", encoding="utf-8").read().split("\n")[:-1]:
     abc = word_tokenize(word)
     for a in abc:
@@ -85,10 +88,6 @@ for line in open("positive_sentences.txt", encoding="utf-8").read().split("\n")[
         positive += posunigrams.count(word)
     for word in unigram:
         negative += negunigrams.count(word)
-    # if any(word in unigram for word in posunigrams):
-    #   positive+=1
-    # if any(word in unigram for word in negunigrams):
-    #   negative-=1
     if positive >negative:
         abcd.append(positive)
     else:
@@ -100,10 +99,6 @@ for line in open("positive_sentences.txt", encoding="utf-8").read().split("\n")[
         positive += posbigrams.count(word)
     for word in bigram:
         negative += negbigrams.count(word)
-    # if any(word in bigram for word in posbigrams):
-    #   positive+=1
-    # if any(word in bigram for word in negbigrams):
-    #   negative-=1
     if positive >negative:
         abcd.append(positive)
     else:
@@ -114,10 +109,6 @@ for line in open("positive_sentences.txt", encoding="utf-8").read().split("\n")[
         positive += postrigrams.count(word)
     for word in trigram:
         negative += negtrigrams.count(word)
-    # if any(word in trigram for word in postrigrams):
-    #   positive+=1
-    # if any(word in trigram for word in negtrigrams):
-    #   negative-=1
     if positive >negative:
         abcd.append(positive)
     else:
@@ -131,6 +122,7 @@ for line in open("positive_sentences.txt", encoding="utf-8").read().split("\n")[
     else:
         abcd.append(negative)
     univtrained.append(abcd)
+    univnature.append(1)
 for line in open("negative_sentences.txt", encoding="utf-8").read().split("\n")[:-1]:
     positive = 0
     abc = word_tokenize(line)
@@ -159,10 +151,6 @@ for line in open("negative_sentences.txt", encoding="utf-8").read().split("\n")[
         positive += posunigrams.count(word)
     for word in unigram:
         negative += negunigrams.count(word)
-    # if any(word in unigram for word in posunigrams):
-    #   positive+=1
-    # if any(word in unigram for word in negunigrams):
-    #   negative-=1
     if positive >negative:
         abcd.append(positive)
     else:
@@ -174,10 +162,6 @@ for line in open("negative_sentences.txt", encoding="utf-8").read().split("\n")[
         positive += posbigrams.count(word)
     for word in bigram:
         negative += negbigrams.count(word)
-    # if any(word in bigram for word in posbigrams):
-    #   positive+=1
-    # if any(word in bigram for word in negbigrams):
-    #   negative-=1
     if positive >negative:
         abcd.append(positive)
     else:
@@ -188,10 +172,6 @@ for line in open("negative_sentences.txt", encoding="utf-8").read().split("\n")[
         positive += postrigrams.count(word)
     for word in trigram:
         negative += negtrigrams.count(word)
-    # if any(word in trigram for word in postrigrams):
-    #   positive+=1
-    # if any(word in trigram for word in negtrigrams):
-    #   negative-=1
     if positive >negative:
         abcd.append(positive)
     else:
@@ -205,5 +185,10 @@ for line in open("negative_sentences.txt", encoding="utf-8").read().split("\n")[
     else:
         abcd.append(negative)
     univtrained.append(abcd)
-print(univtrained)
+    univnature.append(0)
+i=0
+#clf.fit(univtrained, univnature)
+while i<len(univtrained):
+    print(univtrained[i],univnature[i])
+    i+=1
 
