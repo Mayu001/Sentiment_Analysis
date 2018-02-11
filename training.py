@@ -7,7 +7,7 @@ posgram=[]
 neggram=[]
 posunigrams = []
 negunigrams = []
-#clf = svm.SVC()
+clf = svm.SVC()
 for word in open("positivelexicon.txt", encoding="utf-8").read().split("\n")[:-1]:
     abc = word_tokenize(word)
     for a in abc:
@@ -51,6 +51,7 @@ with (open("most_common_posTrigrams.pkl", "rb")) as openfile:
             postrigrams=(pickle.load(openfile))
         except EOFError:
             break
+print(postrigrams)
 negtrigrams = []
 with (open("most_common_negTrigrams.pkl", "rb")) as openfile:
     while True:
@@ -88,10 +89,12 @@ for line in open("positive_sentences.txt", encoding="utf-8").read().split("\n")[
         positive += posunigrams.count(word)
     for word in unigram:
         negative += negunigrams.count(word)
-    if positive >negative:
-        abcd.append(positive)
+    if positive > negative:
+     abcd.append(1)
+    elif positive<negative:
+     abcd.append(2)
     else:
-        abcd.append(negative)
+        abcd.append(0)
     positive=0
     negative=0
     word=""
@@ -99,28 +102,34 @@ for line in open("positive_sentences.txt", encoding="utf-8").read().split("\n")[
         positive += posbigrams.count(word)
     for word in bigram:
         negative += negbigrams.count(word)
-    if positive >negative:
-        abcd.append(positive)
+    if positive > negative:
+     abcd.append(1)
+    elif positive<negative:
+     abcd.append(2)
     else:
-        abcd.append(negative)
+        abcd.append(0)
     positive = 0
     negative = 0
     for word in trigram:
         positive += postrigrams.count(word)
     for word in trigram:
         negative += negtrigrams.count(word)
-    if positive >negative:
-        abcd.append(positive)
+    if positive > negative:
+     abcd.append(1)
+    elif positive<negative:
+     abcd.append(2)
     else:
-        abcd.append(negative)
+        abcd.append(0)
     for word in unigram:
         positive += posgram.count(word)
     for word in trigram:
         negative += neggram.count(word)
-    if positive>negative:
-        abcd.append(positive)
+    if positive > negative:
+     abcd.append(1)
+    elif positive<negative:
+     abcd.append(2)
     else:
-        abcd.append(negative)
+        abcd.append(0)
     univtrained.append(abcd)
     univnature.append(1)
 for line in open("negative_sentences.txt", encoding="utf-8").read().split("\n")[:-1]:
@@ -151,10 +160,12 @@ for line in open("negative_sentences.txt", encoding="utf-8").read().split("\n")[
         positive += posunigrams.count(word)
     for word in unigram:
         negative += negunigrams.count(word)
-    if positive >negative:
-        abcd.append(positive)
+    if positive > negative:
+     abcd.append(1)
+    elif positive<negative:
+     abcd.append(2)
     else:
-        abcd.append(negative)
+        abcd.append(0)
     positive=0
     negative=0
     word=""
@@ -162,33 +173,39 @@ for line in open("negative_sentences.txt", encoding="utf-8").read().split("\n")[
         positive += posbigrams.count(word)
     for word in bigram:
         negative += negbigrams.count(word)
-    if positive >negative:
-        abcd.append(positive)
+    if positive > negative:
+     abcd.append(1)
+    elif positive<negative:
+     abcd.append(2)
     else:
-        abcd.append(negative)
+        abcd.append(0)
     positive = 0
     negative = 0
     for word in trigram:
         positive += postrigrams.count(word)
     for word in trigram:
         negative += negtrigrams.count(word)
-    if positive >negative:
-        abcd.append(positive)
+    if positive > negative:
+     abcd.append(1)
+    elif positive<negative:
+     abcd.append(2)
     else:
-        abcd.append(negative)
+        abcd.append(0)
     for word in unigram:
         positive += posgram.count(word)
     for word in trigram:
         negative += neggram.count(word)
-    if positive>negative:
-        abcd.append(positive)
+    if positive > negative:
+     abcd.append(1)
+    elif positive<negative:
+     abcd.append(2)
     else:
-        abcd.append(negative)
+        abcd.append(0)
     univtrained.append(abcd)
     univnature.append(0)
-i=0
-#clf.fit(univtrained, univnature)
-while i<len(univtrained):
-    print(univtrained[i],univnature[i])
-    i+=1
+print(univtrained)
+clf.fit(univtrained, univnature)
+with open("Trained_clf.pkl", "wb") as a:
+    pickle.dump(clf, a)
+print("training done")
 
