@@ -9,6 +9,7 @@ testpattern=[]
 r=0;
 neggram=[]
 trainedprediction=[]
+trainedpredictiongnb=[]
 posunigrams = []
 negunigrams = []
 predictedlabels=[]
@@ -152,8 +153,14 @@ for word in open("datatopredict.txt", encoding="utf-8").read().split("\n")[:-1]:
     with open("Trained_clf.pkl", "rb") as a:
         clfPicked= pickle.load(a)
     p=clfPicked.predict([abcd])
+    with open("Trained_gnb.pkl","rb") as a:
+        gnbPicked=pickle.load(a)
+    q=gnbPicked.predict([abcd])
+    for i in q:
+        trainedpredictiongnb.append(i)
     for i in p:
         trainedprediction.append(i)
 acc=accuracy_score(label,trainedpredictiongnb)
 print(acc)
-
+acc=accuracy_score(label,trainedprediction)
+print(acc)

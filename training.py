@@ -1,12 +1,8 @@
 import pickle
 from nltk.tokenize import word_tokenize
 from numpy import array
-from sklearn import svm
-from sklearn.preprocessing import Imputer
-from sklearn import preprocessing
-from sklearn.cross_validation import train_test_split
+from sklearn import svm,datasets
 from sklearn.naive_bayes import GaussianNB
-from sklearn.metrics import accuracy_score
 univtrained=[]
 univnature=[]
 posgram=[]
@@ -213,4 +209,9 @@ univnature=array(univnature)
 clf.fit(univtrained, univnature)
 with open("Trained_clf.pkl", "wb") as a:
     pickle.dump(clf, a)
+iris=datasets.load_iris()
+gnb=GaussianNB()
+gnb.fit(univtrained,univnature)
+with open("Trained_gnb.pkl","wb") as a:
+    pickle.dump(gnb,a)
 print("training done")
