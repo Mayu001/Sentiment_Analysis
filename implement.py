@@ -1,9 +1,14 @@
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
+from numpy import array
+from sklearn.metrics import accuracy_score
 import pickle
 ####taking lists of common lexicons
 posgram=[]
+testpattern=[]
+r=0;
 neggram=[]
+trainedprediction=[]
 posunigrams = []
 negunigrams = []
 predictedlabels=[]
@@ -62,14 +67,14 @@ label=[]
 for word in open("data_to_predict_label.txt", encoding="utf-8").read().split("\n")[:-1]:
     abc = word_tokenize(word)
     for a in abc:
-        label.append(a)
-dtp=[]
+        label.append(int(a))
 for word in open("datatopredict.txt", encoding="utf-8").read().split("\n")[:-1]:
+    dtp=[]
     abc = word_tokenize(word)
     for a in abc:
         if a.isalnum():
             dtp.append(a)
-# test_string=input("Enter a sentences\n")
+    # test_string=input("Enter a sentences\n")
     unigram=dtp
     bigram=[]
     trigram=[]
@@ -140,10 +145,15 @@ for word in open("datatopredict.txt", encoding="utf-8").read().split("\n")[:-1]:
         abcd.append(2)
     elif positive==negative:
         abcd.append(0)
+    # from numpy import array
+    # abcd=array(abcd)
+    print(r)
+    r+=1
     with open("Trained_clf.pkl", "rb") as a:
         clfPicked= pickle.load(a)
     p=clfPicked.predict([abcd])
     for i in p:
-        predictedlabels.append(i)
-        print(i)
-print(predictedlabels)
+        trainedprediction.append(i)
+acc=accuracy_score(label,trainedprediction)
+print(acc)
+

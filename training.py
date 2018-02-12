@@ -1,5 +1,6 @@
 import pickle
 from nltk.tokenize import word_tokenize
+from numpy import array
 from sklearn import svm
 univtrained=[]
 univnature=[]
@@ -202,6 +203,8 @@ for line in open("negative_sentences.txt", encoding="utf-8").read().split("\n")[
         abcd.append(0)
     univtrained.append(abcd)
     univnature.append(0)
+univtrained=array(univtrained)
+univnature=array(univnature)
 clf.fit(univtrained, univnature)
 with open("Trained_clf.pkl", "wb") as a:
     pickle.dump(clf, a)
