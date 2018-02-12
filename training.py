@@ -2,6 +2,11 @@ import pickle
 from nltk.tokenize import word_tokenize
 from numpy import array
 from sklearn import svm
+from sklearn.preprocessing import Imputer
+from sklearn import preprocessing
+from sklearn.cross_validation import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
 univtrained=[]
 univnature=[]
 posgram=[]

@@ -154,6 +154,6 @@ for word in open("datatopredict.txt", encoding="utf-8").read().split("\n")[:-1]:
     p=clfPicked.predict([abcd])
     for i in p:
         trainedprediction.append(i)
-acc=accuracy_score(label,trainedprediction)
+acc=accuracy_score(label,trainedpredictiongnb)
 print(acc)
 
