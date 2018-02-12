@@ -51,7 +51,6 @@ with (open("most_common_posTrigrams.pkl", "rb")) as openfile:
             postrigrams=(pickle.load(openfile))
         except EOFError:
             break
-print(postrigrams)
 negtrigrams = []
 with (open("most_common_negTrigrams.pkl", "rb")) as openfile:
     while True:
@@ -203,9 +202,7 @@ for line in open("negative_sentences.txt", encoding="utf-8").read().split("\n")[
         abcd.append(0)
     univtrained.append(abcd)
     univnature.append(0)
-print(univtrained)
 clf.fit(univtrained, univnature)
 with open("Trained_clf.pkl", "wb") as a:
     pickle.dump(clf, a)
 print("training done")
-

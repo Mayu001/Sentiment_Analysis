@@ -6,6 +6,7 @@ posgram=[]
 neggram=[]
 posunigrams = []
 negunigrams = []
+predictedlabels=[]
 for word in open("positivelexicon.txt", encoding="utf-8").read().split("\n")[:-1]:
     abc = word_tokenize(word)
     for a in abc:
@@ -57,6 +58,11 @@ with (open("most_common_negTrigrams.pkl", "rb")) as openfile:
             break
 
 ###mayadarling ka code
+label=[]
+for word in open("data_to_predict_label.txt", encoding="utf-8").read().split("\n")[:-1]:
+    abc = word_tokenize(word)
+    for a in abc:
+        label.append(a)
 dtp=[]
 for word in open("datatopredict.txt", encoding="utf-8").read().split("\n")[:-1]:
     abc = word_tokenize(word)
@@ -134,13 +140,10 @@ for word in open("datatopredict.txt", encoding="utf-8").read().split("\n")[:-1]:
         abcd.append(2)
     elif positive==negative:
         abcd.append(0)
-#########################################################
-    import pickle
     with open("Trained_clf.pkl", "rb") as a:
         clfPicked= pickle.load(a)
     p=clfPicked.predict([abcd])
     for i in p:
-        if(i==1):
-            print("positive")
-        else:
-            print("negative")
+        predictedlabels.append(i)
+        print(i)
+print(predictedlabels)
