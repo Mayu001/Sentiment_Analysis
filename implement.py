@@ -6,10 +6,13 @@ import pickle
 ####taking lists of common lexicons
 posgram=[]
 testpattern=[]
-r=0;
+s=0
+val=0
 neggram=[]
 trainedprediction=[]
+final_labels=[]
 trainedpredictiongnb=[]
+trainedpredictionmnb=[]
 posunigrams = []
 negunigrams = []
 predictedlabels=[]
@@ -148,19 +151,36 @@ for word in open("datatopredict.txt", encoding="utf-8").read().split("\n")[:-1]:
         abcd.append(0)
     # from numpy import array
     # abcd=array(abcd)
-    print(r)
-    r+=1
+    print(s)
+    s+=1
     with open("Trained_clf.pkl", "rb") as a:
         clfPicked= pickle.load(a)
     p=clfPicked.predict([abcd])
     with open("Trained_gnb.pkl","rb") as a:
         gnbPicked=pickle.load(a)
     q=gnbPicked.predict([abcd])
+    with open("Trained_MultinomialNB.pkl", "rb") as a:
+        mnbPicked= pickle.load(a)
+    r=mnbPicked.predict([abcd])
+    for i in r:
+        trainedpredictionmnb.append(i)
     for i in q:
         trainedpredictiongnb.append(i)
     for i in p:
         trainedprediction.append(i)
+i=0
+while i<len(trainedprediction):
+    val=trainedprediction[i]+trainedpredictiongnb[i]+trainedpredictionmnb[i]
+    i+=1
+    if val>1:
+        final_labels.append(1)
+    else:
+        final_labels.append(0)
+acc=accuracy_score(label,trainedprediction)
+print(acc)
 acc=accuracy_score(label,trainedpredictiongnb)
 print(acc)
-acc=accuracy_score(label,trainedprediction)
+acc=accuracy_score(label,trainedpredictionmnb)
+print(acc)
+acc=accuracy_score(label,final_labels)
 print(acc)

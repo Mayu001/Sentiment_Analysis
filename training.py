@@ -3,6 +3,7 @@ from nltk.tokenize import word_tokenize
 from numpy import array
 from sklearn import svm,datasets
 from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import MultinomialNB
 univtrained=[]
 univnature=[]
 posgram=[]
@@ -214,4 +215,7 @@ gnb=GaussianNB()
 gnb.fit(univtrained,univnature)
 with open("Trained_gnb.pkl","wb") as a:
     pickle.dump(gnb,a)
+mnb=MultinomialNB().fit(univtrained, univnature)
+with open("Trained_MultinomialNB.pkl","wb") as a:
+    pickle.dump(mnb,a)
 print("training done")
