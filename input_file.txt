@@ -1,4 +1,5 @@
 mayank is not a good boy .
 mayank is a good boy .
 mayank is a bad boy .
-mayank doesn't look good .
+mayank looks good .
+he is careful by nature .
