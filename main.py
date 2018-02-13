@@ -29,17 +29,14 @@ for line in open("positive_sentences.txt", encoding="utf-8").read().split("\n")[
     posBigram=posBigram+pB
     posTrigram=posTrigram+pT
 #frequent items
-most_common_posUnigrams= [word for word, word_count in Counter(posUnigram).most_common(1000)]  #unigram
 import pickle
-with open("common_posUnigrams.pkl", "wb") as a1:
-    pickle.dump(most_common_posUnigrams, a1)
 most_common_posBigrams= [word for word, word_count in Counter(posBigram).most_common(1000)] #bigram
 with open("most_common_posBigrams.pkl", "wb") as a1:
     pickle.dump(most_common_posBigrams, a1)
 most_common_posTrigrams= [word for word, word_count in Counter(posTrigram).most_common(1000)] #trigram
 with open("most_common_posTrigrams.pkl", "wb") as a1:
     pickle.dump(most_common_posTrigrams, a1)
-print(most_common_posUnigrams,most_common_posBigrams,most_common_posTrigrams)
+print(most_common_posBigrams,most_common_posTrigrams)
 print('\n\n')
 negUnigram=[]
 negBigram=[]
@@ -66,13 +63,10 @@ for line in open("negative_sentences.txt", encoding="utf-8").read().split("\n")[
     negBigram=negBigram+nB
     negTrigram=negTrigram+nT
 #frequent items
-most_common_negUnigrams= [word for word,word_count in Counter(negUnigram).most_common(6000)]  #unigram
-with open("most_common_negUnigrams.pkl", "wb") as a1:
-    pickle.dump(most_common_negUnigrams, a1)
-most_common_negBigrams= [word for word, word_count in Counter(negBigram).most_common(6000)] #bigram
+most_common_negBigrams= [word for word, word_count in Counter(negBigram).most_common(8000)] #bigram
 with open("most_common_negBigrams.pkl", "wb") as a1:
     pickle.dump(most_common_negBigrams, a1)
-most_common_negTrigrams= [word for word, word_count in Counter(negTrigram).most_common(6000)] #trigram
+most_common_negTrigrams= [word for word, word_count in Counter(negTrigram).most_common(8000)] #trigram
 with open("most_common_negTrigrams.pkl", "wb") as a1:
     pickle.dump(most_common_negTrigrams, a1)
-print(most_common_negUnigrams,most_common_negBigrams,most_common_negTrigrams)
+print(most_common_negBigrams,most_common_negTrigrams)

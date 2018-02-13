@@ -25,18 +25,6 @@ for word in open("negativelexicon.txt", encoding="utf-8").read().split("\n")[:-1
     abc = word_tokenize(word)
     for a in abc:
         neggram.append(a)
-with (open("common_posUnigrams.pkl", "rb")) as openfile:
-    while True:
-        try:
-            posunigrams=(pickle.load(openfile))
-        except EOFError:
-            break
-with (open("most_common_negUnigrams.pkl", "rb")) as openfile:
-    while True:
-        try:
-            negunigrams=(pickle.load(openfile))
-        except EOFError:
-            break
 posbigrams = []
 with (open("most_common_posBigrams.pkl", "rb")) as openfile:
     while True:
@@ -67,13 +55,13 @@ with (open("most_common_negTrigrams.pkl", "rb")) as openfile:
         except EOFError:
             break
 #accuracy calculation code
-# label=[]
-# for word in open("data_to_predict_label.txt", encoding="utf-8").read().split("\n")[:-1]:
-#     abc = word_tokenize(word)
-#     for a in abc:
-#         label.append(int(a))
+label=[]
+for word in open("data_to_predict_label.txt", encoding="utf-8").read().split("\n")[:-1]:
+    abc = word_tokenize(word)
+    for a in abc:
+        label.append(int(a))
 #datatopredict.txt,input_file.txt
-for word in open("input_file.txt", encoding="utf-8").read().split("\n")[:-1]:
+for word in open("datatopredict.txt", encoding="utf-8").read().split("\n")[:-1]:
     dtp = []
     abc = word_tokenize(word)
     for a in abc:
@@ -96,21 +84,8 @@ for word in open("input_file.txt", encoding="utf-8").read().split("\n")[:-1]:
     while i<len(unigram)-2:
         trigram.append(unigram[i] + unigram[i + 1] + unigram[i + 2])
         i+=1
-    ##comparing inputted data with previously stored data and forming pattern
-    positive = 0
-    negative = 0
+    # #comparing inputted data with previously stored data and forming pattern
     abcd=[]
-    word =""
-    for word in unigram:
-        positive += posunigrams.count(word)
-    for word in unigram:
-        negative += negunigrams.count(word)
-    if positive > negative:
-        abcd.append(1)
-    elif positive<negative:
-        abcd.append(2)
-    elif positive==negative:
-        abcd.append(0)
     positive=0
     negative=0
     word=""
@@ -175,27 +150,28 @@ for word in open("input_file.txt", encoding="utf-8").read().split("\n")[:-1]:
         trainedpredictiondt.append(i)
 i=0
 while i<len(trainedprediction):
-    val=trainedprediction[i]+trainedpredictiongnb[i]+trainedpredictionbni[i]+trainedpredictiondt[i]
+    val=trainedprediction[i]+trainedpredictiongnb[i]+trainedpredictiondt[i]
     i+=1
-    if val>3:
+    if val>2:
         final_labels.append(1)
     else:
         final_labels.append(0)
-for i in final_labels:
-    if i==1:
-        print("Positive Sentence")
-    else:
-        print("Negative Sentence")
+#for input data format
+# for i in final_labels:
+#     if i==1:
+#         print("Positive Sentence")
+#     else:
+#         print("Negative Sentence")
 #accuracy checking code
-# acc=accuracy_score(label,trainedprediction)   //59.94
-# print(acc)
-# acc=accuracy_score(label,trainedpredictiongnb) //65.95%
-# print(acc)
-# acc=accuracy_score(label,trainedpredictionmnb)  //52.77
-# print(acc)
-# acc=accuracy_score(label,trainedpredictionbni)  //56.53
-# print(acc)
-# acc=accuracy_score(label,trainedpredictiondt)  //62.16
-# print(acc)
-# acc=accuracy_score(label,final_labels)
-# print(acc)
+acc=accuracy_score(label,trainedprediction)   #59.94
+print(acc)
+acc=accuracy_score(label,trainedpredictiongnb) #65.95%
+print(acc)
+acc=accuracy_score(label,trainedpredictionmnb)  #52.77
+print(acc)
+acc=accuracy_score(label,trainedpredictionbni)  #56.53
+print(acc)
+acc=accuracy_score(label,trainedpredictiondt)  #62.16
+print(acc)
+acc=accuracy_score(label,final_labels)
+print(acc)
