@@ -3,7 +3,6 @@ from nltk.corpus import stopwords
 from numpy import array
 from sklearn.metrics import accuracy_score
 import pickle
-####taking lists of common lexicons
 posgram=[]
 testpattern=[]
 s=0
@@ -67,15 +66,15 @@ with (open("most_common_negTrigrams.pkl", "rb")) as openfile:
             negtrigrams=(pickle.load(openfile))
         except EOFError:
             break
-
-###mayadarling ka code
-label=[]
-for word in open("data_to_predict_label.txt", encoding="utf-8").read().split("\n")[:-1]:
-    abc = word_tokenize(word)
-    for a in abc:
-        label.append(int(a))
-for word in open("datatopredict.txt", encoding="utf-8").read().split("\n")[:-1]:
-    dtp=[]
+#accuracy calculation code
+# label=[]
+# for word in open("data_to_predict_label.txt", encoding="utf-8").read().split("\n")[:-1]:
+#     abc = word_tokenize(word)
+#     for a in abc:
+#         label.append(int(a))
+#datatopredict.txt,input_file.txt
+for word in open("input_file.txt", encoding="utf-8").read().split("\n")[:-1]:
+    dtp = []
     abc = word_tokenize(word)
     for a in abc:
         if a.isalnum():
@@ -88,10 +87,6 @@ for word in open("datatopredict.txt", encoding="utf-8").read().split("\n")[:-1]:
     stop_words.remove('not')
     stop_words.remove('don')
     stop_words.remove('t')
-    #    abc=word_tokenize(test_string)
-    # for a in abc:
-    #     if a.isalnum():
-    #         unigram.append(a)
     unigram = [w for w in unigram if not w in stop_words]
     i=0
     while i<len(unigram)-1:
@@ -151,8 +146,6 @@ for word in open("datatopredict.txt", encoding="utf-8").read().split("\n")[:-1]:
         abcd.append(2)
     elif positive==negative:
         abcd.append(0)
-    # from numpy import array
-    # abcd=array(abcd)
     print(s)
     s+=1
     with open("Trained_clf.pkl", "rb") as a:
@@ -182,21 +175,27 @@ for word in open("datatopredict.txt", encoding="utf-8").read().split("\n")[:-1]:
         trainedpredictiondt.append(i)
 i=0
 while i<len(trainedprediction):
-    val=trainedprediction[i]+trainedpredictiongnb[i]+trainedpredictionmnb[i]+trainedpredictionbni[i]+trainedpredictiondt[i]
+    val=trainedprediction[i]+trainedpredictiongnb[i]+trainedpredictionbni[i]+trainedpredictiondt[i]
     i+=1
     if val>3:
         final_labels.append(1)
     else:
         final_labels.append(0)
-acc=accuracy_score(label,trainedprediction)
-print(acc)
-acc=accuracy_score(label,trainedpredictiongnb)
-print(acc)
-acc=accuracy_score(label,trainedpredictionmnb)
-print(acc)
-acc=accuracy_score(label,trainedpredictionbni)
-print(acc)
-acc=accuracy_score(label,trainedpredictiondt)
-print(acc)
-acc=accuracy_score(label,final_labels)
-print(acc)
+for i in final_labels:
+    if i==1:
+        print("Positive Sentence")
+    else:
+        print("Negative Sentence")
+#accuracy checking code
+# acc=accuracy_score(label,trainedprediction)   //59.94
+# print(acc)
+# acc=accuracy_score(label,trainedpredictiongnb) //65.95%
+# print(acc)
+# acc=accuracy_score(label,trainedpredictionmnb)  //52.77
+# print(acc)
+# acc=accuracy_score(label,trainedpredictionbni)  //56.53
+# print(acc)
+# acc=accuracy_score(label,trainedpredictiondt)  //62.16
+# print(acc)
+# acc=accuracy_score(label,final_labels)
+# print(acc)
