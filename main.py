@@ -9,7 +9,6 @@ stop_words = set(stopwords.words('english'))
 stop_words.remove('not')
 for line in open("positive_sentences.txt", encoding="utf-8").read().split("\n")[:-1]:
     abc=word_tokenize(line)
-    #abc = line.split(" ")
     pU = []
     for a in abc:
         if a.isalnum():
