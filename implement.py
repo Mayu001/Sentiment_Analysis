@@ -13,6 +13,7 @@ trainedprediction=[]
 final_labels=[]
 trainedpredictiongnb=[]
 trainedpredictionmnb=[]
+trainedpredictiondt=[]
 trainedpredictionbni=[]
 posunigrams = []
 negunigrams = []
@@ -166,6 +167,9 @@ for word in open("datatopredict.txt", encoding="utf-8").read().split("\n")[:-1]:
     with open("Trained_bernoulli.pkl", "rb") as a:
         bniPicked= pickle.load(a)
     t=bniPicked.predict([abcd])
+    with open("Trained_decisionTree.pkl", "rb") as a:
+        dtPicked= pickle.load(a)
+    u=dtPicked.predict([abcd])
     for i in r:
         trainedpredictionmnb.append(i)
     for i in q:
@@ -174,9 +178,11 @@ for word in open("datatopredict.txt", encoding="utf-8").read().split("\n")[:-1]:
         trainedprediction.append(i)
     for i in t:
         trainedpredictionbni.append(i)
+    for i in u:
+        trainedpredictiondt.append(i)
 i=0
 while i<len(trainedprediction):
-    val=trainedprediction[i]+trainedpredictiongnb[i]+trainedpredictionmnb[i]+trainedpredictionbni[i]
+    val=trainedprediction[i]+trainedpredictiongnb[i]+trainedpredictionmnb[i]+trainedpredictionbni[i]+trainedpredictiondt[i]
     i+=1
     if val>3:
         final_labels.append(1)
@@ -189,6 +195,8 @@ print(acc)
 acc=accuracy_score(label,trainedpredictionmnb)
 print(acc)
 acc=accuracy_score(label,trainedpredictionbni)
+print(acc)
+acc=accuracy_score(label,trainedpredictiondt)
 print(acc)
 acc=accuracy_score(label,final_labels)
 print(acc)

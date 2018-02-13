@@ -5,7 +5,6 @@ from sklearn import svm,datasets
 from sklearn.naive_bayes import GaussianNB
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.naive_bayes import BernoulliNB
-from sklearn import tree
 univtrained=[]
 univnature=[]
 posgram=[]
@@ -220,12 +219,8 @@ with open("Trained_gnb.pkl","wb") as a:
 mnb=MultinomialNB().fit(univtrained, univnature)
 with open("Trained_MultinomialNB.pkl","wb") as a:
     pickle.dump(mnb,a)
-clf=BernoulliNB()
-clf.fit(univtrained,univnature)
+clf=BernoulliNB().fit(univtrained,univnature)
 with open("Trained_bernoulli.pkl", "wb") as a:
     pickle.dump(clf, a)
-DTclf = tree.DecisionTreeClassifier()
-DTclf.fit(univtrained,univnature)
-with open("Trained_decisionTree.pkl", "wb") as a:
-    pickle.dump(DTclf, a)
+    print("created")
 print("training done")
