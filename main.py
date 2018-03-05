@@ -13,7 +13,6 @@ for line in open("positive_sentences.txt", encoding="utf-8").read().split("\n")[
     for a in abc:
         if a.isalnum():
             pU.append(a)
-
     pU = [w for w in pU if not w in stop_words]
     pB=[]
     pT=[]
@@ -36,7 +35,7 @@ with open("most_common_posBigrams.pkl", "wb") as a1:
 most_common_posTrigrams= [word for word, word_count in Counter(posTrigram).most_common(1000)] #trigram
 with open("most_common_posTrigrams.pkl", "wb") as a1:
     pickle.dump(most_common_posTrigrams, a1)
-print(most_common_posBigrams,most_common_posTrigrams)
+print("Most Common Positive Bigrams and Most Common positive Trigrams are Created.\n")
 print('\n\n')
 negUnigram=[]
 negBigram=[]
@@ -69,4 +68,4 @@ with open("most_common_negBigrams.pkl", "wb") as a1:
 most_common_negTrigrams= [word for word, word_count in Counter(negTrigram).most_common(8000)] #trigram
 with open("most_common_negTrigrams.pkl", "wb") as a1:
     pickle.dump(most_common_negTrigrams, a1)
-print(most_common_negBigrams,most_common_negTrigrams)
+print(" Most Common Negative Bigrams and Most Common Negative Trigrams are Created")

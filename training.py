@@ -71,22 +71,7 @@ for line in open("positive_sentences.txt", encoding="utf-8").read().split("\n")[
     while i<len(unigram)-2:
         trigram.append(unigram[i] + unigram[i + 1] + unigram[i + 2])
         i+=1
-    #check for unigrams
-    #
-    # positive = 0
-    # negative = 0
     abcd=[]
-    # word =""
-    # for word in unigram:
-    #     positive += posunigrams.count(word)
-    # for word in unigram:
-    #     negative += negunigrams.count(word)
-    # if positive > negative:
-    #  abcd.append(1)
-    # elif positive<negative:
-    #  abcd.append(2)
-    # else:
-    #     abcd.append(0)
     positive=0
     negative=0
     word=""
@@ -182,7 +167,7 @@ for line in open("negative_sentences.txt", encoding="utf-8").read().split("\n")[
         abcd.append(0)
     univtrained.append(abcd)
     univnature.append(0)
-print(univtrained)
+#print(univtrained)
 univtrained=array(univtrained)
 univnature=array(univnature)
 clf.fit(univtrained, univnature)
@@ -203,4 +188,4 @@ DTclf = tree.DecisionTreeClassifier()
 DTclf=DTclf.fit(univtrained,univnature)
 with open("Trained_decisionTree.pkl", "wb") as a:
     pickle.dump(DTclf, a)
-print("training done")
+print("Training done....")

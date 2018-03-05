@@ -55,13 +55,13 @@ with (open("most_common_negTrigrams.pkl", "rb")) as openfile:
         except EOFError:
             break
 #accuracy calculation code
-label=[]
-for word in open("data_to_predict_label.txt", encoding="utf-8").read().split("\n")[:-1]:
-    abc = word_tokenize(word)
-    for a in abc:
-        label.append(int(a))
+# label=[]
+# for word in open("data_to_predict_label.txt", encoding="utf-8").read().split("\n")[:-1]:
+#     abc = word_tokenize(word)
+#     for a in abc:
+#         label.append(int(a))
 #datatopredict.txt,input_file.txt
-for word in open("datatopredict.txt", encoding="utf-8").read().split("\n")[:-1]:
+for word in open("input_file.txt", encoding="utf-8").read().split("\n")[:-1]:
     dtp = []
     abc = word_tokenize(word)
     for a in abc:
@@ -121,8 +121,6 @@ for word in open("datatopredict.txt", encoding="utf-8").read().split("\n")[:-1]:
         abcd.append(2)
     elif positive==negative:
         abcd.append(0)
-    print(s)
-    s+=1
     with open("Trained_clf.pkl", "rb") as a:
         clfPicked= pickle.load(a)
     p=clfPicked.predict([abcd])
@@ -156,22 +154,24 @@ while i<len(trainedprediction):
         final_labels.append(1)
     else:
         final_labels.append(0)
-#for input data format
-# for i in final_labels:
-#     if i==1:
-#         print("Positive Sentence")
-#     else:
-#         print("Negative Sentence")
+count=1
+for i in final_labels:
+    if i==1:
+        print(count," Positive Sentence")
+        count=count+1
+    else:
+        print(count," Negative Sentence")
+        count=count+1
 #accuracy checking code
-acc=accuracy_score(label,trainedprediction)   #59.94
-print(acc)
-acc=accuracy_score(label,trainedpredictiongnb) #65.95%
-print(acc)
-acc=accuracy_score(label,trainedpredictionmnb)  #52.77
-print(acc)
-acc=accuracy_score(label,trainedpredictionbni)  #56.53
-print(acc)
-acc=accuracy_score(label,trainedpredictiondt)  #62.16
-print(acc)
-acc=accuracy_score(label,final_labels)
-print(acc)
+# acc=accuracy_score(label,trainedprediction)   #59.94
+# print(acc)
+# acc=accuracy_score(label,trainedpredictiongnb) #65.95%
+# print(acc)
+# acc=accuracy_score(label,trainedpredictionmnb)  #52.77
+# print(acc)
+# acc=accuracy_score(label,trainedpredictionbni)  #56.53
+# print(acc)
+# acc=accuracy_score(label,trainedpredictiondt)  #62.16
+# print(acc)
+# acc=accuracy_score(label,final_labels)
+# print(acc)
